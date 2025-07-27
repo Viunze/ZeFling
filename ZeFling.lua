@@ -1,5 +1,5 @@
 -- LOCK MAP SYSTEM
-if game.GameId ~= 10449761463 then
+if game.PlaceId ~= 10449761463 then
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "ZeFling Script";
         Text = "Only works in The Strongest Battlegrounds!";
@@ -9,9 +9,6 @@ if game.GameId ~= 10449761463 then
     game:Shutdown()
     return
 end
-
--- Load Rayfield Library
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- Load Rayfield Library
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
