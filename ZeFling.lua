@@ -1,4 +1,17 @@
--- // Load Rayfield UI
+-- LOCK MAP SYSTEM
+if game.PlaceId ~= 10324347967 then
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "ZeFling Script";
+        Text = "Only works in The Strongest Battlegrounds!";
+        Duration = 5;
+    })
+    wait(3)
+    game:Shutdown()
+    return
+end
+
+-- Load Rayfield Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local success, Rayfield = pcall(function()
     return loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 end)
