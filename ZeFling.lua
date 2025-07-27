@@ -71,9 +71,9 @@ end
 
 -- // GUI Window
 local Window = Rayfield:CreateWindow({
-   Name = "💥 ZeFling Target | XploitForce",
+   Name = "💥 ZeFling Tsb",
    LoadingTitle = "Launching ZeFling...",
-   LoadingSubtitle = "by Cello & Clud",
+   LoadingSubtitle = "By Vinzee",
    ConfigurationSaving = { Enabled = false },
    Discord = { Enabled = false },
    KeySystem = false
