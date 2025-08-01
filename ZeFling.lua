@@ -1,9 +1,9 @@
--- LOCK MAP SYSTEM
+-- Lock Map
 if game.PlaceId ~= 10449761463 then
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "ZeFling Script";
-        Text = "Only works in The Strongest Battlegrounds!";
-        Duration = 5;
+        Title = "ZeFling Script",
+        Text = "Only works in The Strongest Battlegrounds!",
+        Duration = 5
     })
     task.wait(3)
     game:Shutdown()
@@ -24,26 +24,25 @@ if not success or not Rayfield then
     return
 end
 
--- // Services
+-- Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TeleportService = game:GetService("TeleportService")
 local LocalPlayer = Players.LocalPlayer
 
--- // Variables
+-- Variables
 local flingActive = false
-local flingConn
-local autoRespawnLoop
+local flingConn, autoRespawnLoop
 local targetName = nil
 
--- // Stop fling
+-- Stop fling logic
 local function stopFling()
     flingActive = false
     if flingConn then flingConn:Disconnect() end
     if autoRespawnLoop then autoRespawnLoop:Disconnect() end
 end
 
--- // Fling function
+-- Fling logic
 local function fling(player)
     local char = LocalPlayer.Character
     local targetChar = player.Character
@@ -56,7 +55,7 @@ local function fling(player)
         local hrp = char:FindFirstChild("HumanoidRootPart")
         local t_hrp = targetChar:FindFirstChild("HumanoidRootPart")
 
-        hrp.CFrame = t_hrp.CFrame * CFrame.new(0, 3, 0) -- Slightly above
+        hrp.CFrame = t_hrp.CFrame * CFrame.new(0, 3, 0)
         hrp.RotVelocity = Vector3.new(9999, 9999, 9999)
 
         if t_hrp.Position.Y < -100 then
@@ -65,7 +64,7 @@ local function fling(player)
     end)
 end
 
--- // Auto refire if target respawns
+-- Auto loop if target respawn
 local function autoFlingLoop(player)
     autoRespawnLoop = RunService.Heartbeat:Connect(function()
         if not flingActive then return end
@@ -85,47 +84,59 @@ local function autoFlingLoop(player)
     end)
 end
 
--- // GUI Window
+-- GUI Window
 local Window = Rayfield:CreateWindow({
-   Name = "💥 ZeFling Tsb",
-   LoadingTitle = "Launching ZeFling...",
-   LoadingSubtitle = "By Vinzee",
-   ConfigurationSaving = { Enabled = false },
-   Discord = { Enabled = false },
-   KeySystem = false
+    Name = "💥 ZeFling TSB",
+    LoadingTitle = "Launching ZeFling...",
+    LoadingSubtitle = "By Vinzee",
+    ConfigurationSaving = { Enabled = false },
+    Discord = { Enabled = false },
+    KeySystem = false
 })
 
--- // Tab: Fling
+-- Fling Tab
 local FlingTab = Window:CreateTab("🎯 Fling Target", 4483362458)
 
 FlingTab:CreateInput({
-   Name = "👤 Enter Target Username",
-   PlaceholderText = "Example: toxickid123",
-   RemoveTextAfterFocusLost = false,
-   Callback = function(txt)
-       targetName = txt
-   end
+    Name = "👤 Enter Target Username",
+    PlaceholderText = "Example: toxickid123",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(txt)
+        targetName = txt
+    end
 })
 
 FlingTab:CreateButton({
-   Name = "🚀 Execute Fling Target",
-   Callback = function()
-       local target = Players:FindFirstChild(targetName)
-       if target then
-           flingActive = true
-           fling(target)
-           autoFlingLoop(target)
-       else
-           Rayfield:Notify({
-               Title = "❌ Error",
-               Content = "Username not found!",
-               Duration = 3
-           })
-       end
-   end
+    Name = "🚀 Execute Fling Target",
+    Callback = function()
+        local target = Players:FindFirstChild(targetName)
+        if target then
+            flingActive = true
+            fling(target)
+            autoFlingLoop(target)
+        else
+            Rayfield:Notify({
+                Title = "❌ Error",
+                Content = "Username not found!",
+                Duration = 3
+            })
+        end
+    end
 })
 
--- // Tab: Tools
+FlingTab:CreateButton({
+    Name = "⛔ Stop All Fling",
+    Callback = function()
+        stopFling()
+        Rayfield:Notify({
+            Title = "🛑 Fling Stopped",
+            Content = "All fling actions have been successfully stopped.",
+            Duration = 3
+        })
+    end
+})
+
+-- Tools Tab
 local ToolsTab = Window:CreateTab("🛠️ Tools", 4483362458)
 
 ToolsTab:CreateButton({
@@ -150,37 +161,28 @@ ToolsTab:CreateButton({
     end
 })
 
--- Create Credits Tab
+-- Credits Tab
 local CreditsTab = Window:CreateTab("📜 Credits", 4483362458)
 
--- Discord Button
-local DiscordButton = CreditsTab:CreateButton({
+CreditsTab:CreateButton({
     Name = "Discord",
     Callback = function()
         setclipboard("https://discord.gg/QjsgcpFDDr")
         Rayfield:Notify({
-            Title = "📋Link Successfully Saved  ",
+            Title = "📋 Link Saved",
             Duration = 3
         })
-    end,
+    end
 })
 
-local RunService = game:GetService("RunService")
-local Stats = game:GetService("Stats")
-
-local PingLabel = Instance.new("TextLabel")
-PingLabel.Position = UDim2.new(1, -120, 0, 5)
-PingLabel.Size = UDim2.new(0, 100, 0, 20)
-PingLabel.BackgroundTransparency = 1
-PingLabel.TextColor3 = Color3.new(1, 1, 1)
-PingLabel.TextStrokeTransparency = 0.5
-PingLabel.TextXAlignment = Enum.TextXAlignment.Right
-PingLabel.Font = Enum.Font.SourceSansBold
-PingLabel.TextSize = 14
-PingLabel.Text = "Ping: ..."
-PingLabel.Parent = game.CoreGui
-
-RunService.RenderStepped:Connect(function()
-	local ping = Stats.Network.ServerStatsItem["Data Ping"]:GetValue()
-	PingLabel.Text = "Ping: " .. math.floor(ping) .. " ms"
-end)
+CreditsTab:CreateButton({
+    Name = "📱 Join WhatsApp Group (Tap to Copy)",
+    Callback = function()
+        setclipboard("https://chat.whatsapp.com/CTzzMGBGnkJ3jgdfSF0y4d?mode=ac_t")
+        Rayfield:Notify({
+            Title = "Link Copied!",
+            Content = "WhatsApp group link copied to clipboard.",
+            Duration = 5
+        })
+    end
+})
